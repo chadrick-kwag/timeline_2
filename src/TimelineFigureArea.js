@@ -188,9 +188,19 @@ export class TimelineFigureArea extends React.Component{
             return <DateMarker key={"datemk"+i} cy = {this.state.marker_cy_arr[i]} date={this.props.data[i].date}/>
         })
 
+        var box_width
+        if(!this.timeline){
+            box_width = 100
+        }
+        else{
+            console.log("timeline offsetwidth: " + this.timeline.offsetWidth)
+            console.log("timeline_cx: " + this.state.timeline_cx)
+            box_width = this.container.offsetWidth - this.state.timeline_cx
+        }
 
+        console.log("box_width: " + box_width)
         var event_boxes = this.props.data.map((d,i)=>{
-            return <EventBox key={"eventbox"+i} cy = {this.state.marker_cy_arr[i]} boxHeight="20" boxMaxWidth="70" summaryText={d.event_title} leftLimit="200" selected={i==this.props.selected_event_index}/>
+            return <EventBox key={"eventbox"+i} cy = {this.state.marker_cy_arr[i]} boxHeight="20" boxMaxWidth={box_width} summaryText={d.event_title} leftLimit={this.state.timeline_cx + 50} selected={i==this.props.selected_event_index} onclickhandler={this.marker_click_handler} event_index={i}/>
         })
 
 

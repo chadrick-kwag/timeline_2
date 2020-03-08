@@ -4,7 +4,7 @@ export class EventBox extends React.Component{
 
     constructor(props){
         super(props)
-
+        this.onclickhandler = this.onclickhandler.bind(this)
     }
 
     draw(){
@@ -40,7 +40,12 @@ export class EventBox extends React.Component{
         this.draw()
     }
 
+    onclickhandler(){
+        this.props.onclickhandler(this.props.event_index)
+    }
+
     render(){
-    return <div ref={el=> this.maindiv = el} className = "card">{this.props.summaryText}</div>
+    return <div ref={el=> this.maindiv = el} className = "card" onClick={this.onclickhandler}>
+        {this.props.summaryText}</div>
     }
 }

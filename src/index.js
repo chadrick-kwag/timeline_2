@@ -4,6 +4,7 @@ import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css'
 import {TimelineFigureArea} from './TimelineFigureArea.js'
+import axios from 'axios'
 
 
 class EventDetailArea extends React.Component{
@@ -38,23 +39,44 @@ class TimeLineWorkSpace extends React.Component{
         super(props)
         this.state={
             data: [
-                {
-                    "date": new Date(2020,0,1),
-                    "event_title": "first event"
-                },
-                {
-                    "date": new Date(2020,0,2),
-                    "event_title": "second event"
-                },
-                {
-                    "date": new Date(2020,0,15),
-                    "event_title": "last event"
-                }
+                // {
+                //     "date": new Date(2020,0,1),
+                //     "event_title": "first event"
+                // },
+                // {
+                //     "date": new Date(2020,0,2),
+                //     "event_title": "second event"
+                // },
+                // {
+                //     "date": new Date(2020,0,15),
+                //     "event_title": "last event"
+                // }
             ],
             selected_event_index : null
         }
 
         this.updateSelectedEventIndex = this.updateSelectedEventIndex.bind(this)
+    }
+
+    componentDidMount(){
+        axios.get('api/getdata').then(res=>{
+            console.log(res)
+            
+            
+            let formatted_data = res.data.map(d=>{
+                d.event_title = d.title
+
+                let convdate = new Date(d.date)
+                console.log(convdate)
+                d.date = convdate
+                return d
+            })
+            
+            console.log("formatted data: ")
+            console.log(formatted_data)
+
+            this.setState({data: formatted_data})
+        })
     }
 
 
