@@ -29,7 +29,7 @@ module.exports = {
     plugins: [HTMLWebpackPluginConfig],
 
     devServer: {
-        open: 'chrome',
+        open: 'google-chrome', // change to 'chrome' in windows
         index: "template.html"
     }
 
