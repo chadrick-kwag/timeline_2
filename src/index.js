@@ -18,20 +18,7 @@ class TimeLineWorkSpace extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            data: [
-                // {
-                //     "date": new Date(2020,0,1),
-                //     "event_title": "first event"
-                // },
-                // {
-                //     "date": new Date(2020,0,2),
-                //     "event_title": "second event"
-                // },
-                // {
-                //     "date": new Date(2020,0,15),
-                //     "event_title": "last event"
-                // }
-            ],
+            data: [],
             selected_event_index : null
         }
 
@@ -68,12 +55,22 @@ class TimeLineWorkSpace extends React.Component{
 
 
     render(){
+
+        let timelineFigureAreaProps = {
+            data : this.state.data,
+            updateSelectedEventIndex : this.updateSelectedEventIndex,
+            selected_event_index : this.state.selected_event_index,
+            timeline_rel_position : 0.2,
+            timeline_length : 2000, // unit: px
+            timeline_width: 10, // unit: px
+        }
+
         return (
             
             <Container fluid>
                 <Row style={{height: "100%"}}>
                     <Col style={{'overflow-x': 'scroll', 'overflow-y': 'auto', height: "100%"}}>
-                    <TimelineFigureArea data = {this.state.data} updateSelectedEventIndex = {this.updateSelectedEventIndex} selected_event_index={this.state.selected_event_index} />
+                    <TimelineFigureArea {...timelineFigureAreaProps}/>
                     </Col>
                     <Col>
                     <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} />

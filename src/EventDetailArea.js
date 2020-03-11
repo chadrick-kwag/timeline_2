@@ -44,7 +44,7 @@ export class EventDetailArea extends React.Component{
             <div className="event-detail-title" style={{padding: "1em"}}><h1>{title_text_fn()}</h1></div>
             <div className="event-detail-body">
                 <div style={{padding: "1em"}}>
-                    {body_text_fn()}
+                    <p>{body_text_fn()}</p>
                 </div>
                 <div style={{ padding: "1em"}}>
                     {ref_content()}

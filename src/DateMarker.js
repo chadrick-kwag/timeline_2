@@ -18,9 +18,8 @@ export class DateMarker extends React.Component{
         let top = this.props.cy - (textheight/2)
 
         this.maindiv.style.top = top
+        this.maindiv.style.left = this.props.right_limit - textwidth
 
-        this.textspan.style.color = "#000"
-        
         
     }
 

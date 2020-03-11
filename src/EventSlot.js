@@ -6,6 +6,7 @@ export class EventSlotContainer extends React.Component {
     draw() {
         this.maindiv.style.position = 'absolute'
         this.maindiv.style.left = this.props.left
+        this.maindiv.style.height = this.props.boxheight + "px"
 
         let currheight = this.maindiv.offsetHeight
 
@@ -22,7 +23,6 @@ export class EventSlotContainer extends React.Component {
     }
 
     render() {
-        console.log("inside esc render")
         var eventslots = []
         var more_flag = false
         for (var i = 0; i < this.props.data.length; i++) {
@@ -31,10 +31,16 @@ export class EventSlotContainer extends React.Component {
                 break
             }
 
-            eventslots.push(<EventSlot data={this.props.data[i]} event_click_handler={this.props.event_click_handler} />)
+            let isSelected = this.props.data[i].event_index == this.props.selected_event_index
+
+            let props = {
+                data: this.props.data[i],
+                event_click_handler: this.props.event_click_handler,
+                selected: isSelected,
+                slotwidth: this.props.slotwidth
+            }
+            eventslots.push(<EventSlot {...props} />)
         }
-        console.log("event slots")
-        console.log(eventslots)
 
         return (
             <div ref={el => this.maindiv = el} style={{
@@ -42,7 +48,8 @@ export class EventSlotContainer extends React.Component {
                 flexDirection: 'row',
                 height: this.props.boxheight + "px",
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                maxWidth: this.props.slotwidth
             }}>
                 {eventslots}
 
@@ -56,23 +63,35 @@ export class EventSlotContainer extends React.Component {
 class EventSlot extends React.Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.clickhandler = this.clickhandler.bind(this)
     }
 
-    clickhandler(){
-        console.log("eventslot clicked. event index: " + this.props.data.event_index)
+    clickhandler() {
         this.props.event_click_handler(this.props.data.event_index)
     }
 
     render() {
 
+        let spanstyle = this.props.selected ? 'bold' : 'normal'
 
-        return (<div ref={el => this.maindiv = el} className="card" style={{ width: "100px" }} onClick={this.clickhandler}>
-            <span>{this.props.data.title}</span>
-        </div>)
+        return (
+            <div ref={el => this.maindiv = el} className="card" style={{ maxWidth: this.props.slotwidth + "px", 
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '2px' }} onClick={this.clickhandler}>
+
+                <span style={{
+                    fontWeight: spanstyle, 
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'                    
+                    
+                }}>{this.props.data.title}</span>
+            </div>
+        )
 
     }
 }
