@@ -5,28 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css'
 import {TimelineFigureArea} from './TimelineFigureArea.js'
 import axios from 'axios'
+import {EventDetailArea} from './EventDetailArea.js'
 
-
-class EventDetailArea extends React.Component{
-
-    render(){
-
-        var title_text_fn = ()=>{
-            if(this.props.showindex==null){
-                return ""
-            }
-            else{
-                return this.props.data[this.props.showindex].event_title
-            }
-        }
-
-        return (
-        <div className="event-detail-area-container">
-            <h1>{title_text_fn()}</h1>
-        </div>
-        )
-    }
-}
 
 
 
@@ -63,12 +43,13 @@ class TimeLineWorkSpace extends React.Component{
             console.log(res)
             
             
-            let formatted_data = res.data.map(d=>{
+            let formatted_data = res.data.map((d,i)=>{
                 d.event_title = d.title
 
                 let convdate = new Date(d.date)
-                console.log(convdate)
+                // console.log(convdate)
                 d.date = convdate
+                d.event_index = i
                 return d
             })
             
@@ -90,9 +71,9 @@ class TimeLineWorkSpace extends React.Component{
         return (
             
             <Container fluid>
-                <Row>
-                    <Col>
-                    <TimelineFigureArea data = {this.state.data} updateSelectedEventIndex = {this.updateSelectedEventIndex} selected_event_index={this.state.selected_event_index}/>
+                <Row style={{height: "100%"}}>
+                    <Col style={{'overflow-x': 'scroll', 'overflow-y': 'auto', height: "100%"}}>
+                    <TimelineFigureArea data = {this.state.data} updateSelectedEventIndex = {this.updateSelectedEventIndex} selected_event_index={this.state.selected_event_index} />
                     </Col>
                     <Col>
                     <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} />

@@ -33,7 +33,7 @@ export class DateMarker extends React.Component{
     }
 
     format_date_to_str(){
-        console.log(this.props.date)
+        // console.log(this.props.date)
         let year = this.props.date.getFullYear()
         let month = this.props.date.getMonth() +1
         let day = this.props.date.getDate()
