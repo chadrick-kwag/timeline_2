@@ -7,7 +7,10 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 })
 
 module.exports = {
-    entry: __dirname + '/src/index.js',
+    entry: {
+        main: __dirname + '/src/index.js',
+        admin: __dirname + '/src/admin/admin.js'
+    },
     module: {
         rules: [
             {
@@ -17,21 +20,34 @@ module.exports = {
             },
             {
                 test: /\.css/,
-                
+
                 loader: ['style-loader', 'css-loader']
             }
         ]
     },
     output: {
-        filename: "transformed.js",
+        filename: '[name].js',
         path: __dirname + '/build'
     },
-    plugins: [HTMLWebpackPluginConfig],
+    plugins: [
+        new HTMLWebpackPlugin({
+            template: __dirname + '/src/template.html',
+            filename: 'template.html',
+            chunks: ['main'],
+            inject: 'body'
+        }),
+        new HTMLWebpackPlugin({
+            template: 'src/admin/admin.html',
+            filename: 'admin.html',
+            chunks: ['admin'],
+            inject: 'body'
+        })
+    ],
 
     devServer: {
-        open: 'google-chrome', // change to 'chrome' in windows
+        open: 'chrome', // change to 'chrome' in windows
         index: "template.html",
-        proxy:{
+        proxy: {
             '/api': 'http://localhost:3001'
         }
     }
