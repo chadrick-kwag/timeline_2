@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button'
 
 
 export class EventSlotContainer extends React.Component {
@@ -40,6 +41,10 @@ export class EventSlotContainer extends React.Component {
                 slotwidth: this.props.slotwidth
             }
             eventslots.push(<EventSlot {...props} />)
+        }
+
+        if(more_flag){
+            eventslots.push(<Button>+</Button>)
         }
 
         return (

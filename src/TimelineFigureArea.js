@@ -18,15 +18,6 @@ export class TimelineFigureArea extends React.Component {
         this.event_marker_rel_pos_array = React.createRef()
         this.event_marker_rel_pos_array.current = []
 
-        this.date_to_event_index_list_map = React.createRef()
-        this.date_to_event_index_list_map.current = null
-
-        this.unique_date_arr = React.createRef()
-        this.unique_date_arr.current = []
-
-        this.event_index_arr_arr = React.createRef()
-        this.event_index_arr_arr.current = []
-
 
         this.state = {
 
@@ -106,7 +97,7 @@ export class TimelineFigureArea extends React.Component {
     get_event_rel_y_pos_arr() {
 
 
-        let date_arr = this.unique_date_arr.current
+        let date_arr = this.props.unique_date_arr
 
         if (date_arr.length == 0) {
             return []
@@ -152,7 +143,7 @@ export class TimelineFigureArea extends React.Component {
 
         // find first event index from event index arr of marker index
         // console.log(this.event_index_arr_arr.current[marker_])
-        let event_index = this.event_index_arr_arr.current[marker_index][0]
+        let event_index = this.props.event_index_group_arr[marker_index][0]
         this.props.updateSelectedEventIndex(event_index)
     }
 
@@ -166,9 +157,9 @@ export class TimelineFigureArea extends React.Component {
         // assign event id to all data
 
 
-        let [unique_date_arr, event_index_arr_arr] = get_date_to_event_index_list_map(this.props.data)
-        this.unique_date_arr.current = unique_date_arr
-        this.event_index_arr_arr.current = event_index_arr_arr
+        // let [unique_date_arr, event_index_arr_arr] = get_date_to_event_index_list_map(this.props.data)
+        // this.unique_date_arr.current = unique_date_arr
+        // this.event_index_arr_arr.current = event_index_arr_arr
         // this.date_to_event_index_list_map.current = date_to_event_index_list_map
 
         // if there is selected event index, find unique date index that has that event index. 
@@ -176,8 +167,8 @@ export class TimelineFigureArea extends React.Component {
 
         let dot_selected_index = null
         if (this.props.selected_event_index != null) {
-            for (var i = 0; i < event_index_arr_arr.length; i++) {
-                let include_flag = event_index_arr_arr[i].includes(this.props.selected_event_index)
+            for (var i = 0; i < this.props.event_index_group_arr.length; i++) {
+                let include_flag = this.props.event_index_group_arr[i].includes(this.props.selected_event_index)
                 if (include_flag) {
                     dot_selected_index = i
                     break
@@ -194,7 +185,7 @@ export class TimelineFigureArea extends React.Component {
 
 
 
-        var dot_markers = this.unique_date_arr.current.map((d, i) => {
+        var dot_markers = this.props.unique_date_arr.map((d, i) => {
 
             let selected_bool = i == dot_selected_index
 
@@ -211,7 +202,7 @@ export class TimelineFigureArea extends React.Component {
         })
 
         let date_text_right_limit = this.state.timeline_cx - (this.props.timeline_width/2) - 10
-        var date_textboxes = this.unique_date_arr.current.map((d, i) => {
+        var date_textboxes = this.props.unique_date_arr.map((d, i) => {
             return <DateMarker key={"datemk" + i} cy={this.state.marker_cy_arr[i]} date={d} right_limit={date_text_right_limit} />
         })
 
@@ -224,7 +215,7 @@ export class TimelineFigureArea extends React.Component {
         }
 
 
-        var event_slot_containers = event_index_arr_arr.map((d, i) => {
+        var event_slot_containers = this.props.event_index_group_arr.map((d, i) => {
             let data_arr = []
             d.forEach(v => data_arr.push(this.props.data[v]))
 

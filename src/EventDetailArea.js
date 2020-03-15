@@ -1,6 +1,75 @@
 import React from 'react'
 
 
+
+class EventCard extends React.Component{
+
+    constructor(props){
+        super(props)
+
+        this.state={
+            text: this.props.text
+        }
+
+        this.redraw = this.redraw.bind(this)
+    }
+
+    redraw(){
+        let newtext = this.state.text
+        
+        let textspanheight = this.textspan.offsetHeight
+        let maindivheight = this.maindiv.offsetHeight
+
+        if(textspanheight>maindivheight){
+            newtext = newtext.slice(0, newtext.length-1)
+            this.setState({text: newtext})
+        }
+
+        
+    }
+
+
+    componentDidMount(){
+        this.redraw()
+    }
+
+    componentDidUpdate(){
+        this.redraw()
+    }
+
+    render(){
+        return(
+            <div ref={e=>this.maindiv=e} className = "card" style={this.props.cardstyle} onClick={e=>this.props.cardClickHandler()}><span ref={el=>this.textspan = el}>{this.state.text}</span></div>
+        )
+    }
+}
+
+class EventCardDisplay extends React.Component{
+
+    
+    render(){
+        return(
+            <div ref={el=>this.maindiv = el} style={{display: 'flex', overflowX: 'auto'}}  onWheel={e=>{
+                this.maindiv.scrollLeft += e.deltaY
+            }}>
+                {this.props.group_index_arr.map(i=>{
+                    let cardstyle = {
+                        backgroundColor : i==this.props.selectedIndex ? '#0f0' : '#fff',
+                        flex: "0 0 30%",
+                        height: "4em",
+                        margin: '0.5em',
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }
+                    return <EventCard cardstyle={cardstyle} cardClickHandler={()=>{this.props.cardClickHandler(i)}} text={this.props.data[i].title}/>
+                })}
+
+            </div>
+        )
+    }
+}
+
+
 export class EventDetailArea extends React.Component{
 
     render(){
@@ -39,9 +108,33 @@ export class EventDetailArea extends React.Component{
             }
         }
 
+        var eventCardDisplay= null
+        let selected_event_index_group= null
+
+        console.log(this.props.event_index_group_arr)
+
+        if(this.props.event_index_group_arr!=null){
+
+            for(var i=0;i<this.props.event_index_group_arr.length;i++){
+                if(this.props.event_index_group_arr[i].includes(this.props.showindex)){
+                    selected_event_index_group = this.props.event_index_group_arr[i]
+                    break
+                }
+            }
+            
+            
+            if(selected_event_index_group!=null && selected_event_index_group.length>1){
+                eventCardDisplay = <EventCardDisplay cardClickHandler={this.props.cardClickHandler} 
+                data={this.props.data} group_index_arr={selected_event_index_group} selectedIndex={this.props.showindex}/>
+            }
+        }
+
+
+
         return (
         <div className="event-detail-area-container">
-            <div className="event-detail-title" style={{padding: "1em"}}><h1>{title_text_fn()}</h1></div>
+            {eventCardDisplay}
+            <div className="event-detail-title"><h1>{title_text_fn()}</h1></div>
             <div className="event-detail-body">
                 <div style={{padding: "1em"}}>
                     <p>{body_text_fn()}</p>
