@@ -102,6 +102,12 @@ class TimeLineWorkSpace extends React.Component{
 
 class App extends React.Component{
 
+    componentDidMount(){
+        window.addEventListener('resize', ()=>{
+            console.log("resize handler triggered")
+            this.forceUpdate()
+        })
+    }
 
     render(){
         return (<div>

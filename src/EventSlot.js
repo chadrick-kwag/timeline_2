@@ -44,7 +44,7 @@ export class EventSlotContainer extends React.Component {
         }
 
         if(more_flag){
-            eventslots.push(<Button>+</Button>)
+            eventslots.push(<Button onClick={e=>this.props.event_click_handler(this.props.data[3].event_index)}>+</Button>)
         }
 
         return (

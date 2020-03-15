@@ -4,5 +4,11 @@
 
 
 .event-detail-title {
-    margin: 1em
+    margin: 1em;
+    word-wrap: break-word;
+}
+
+
+.event-detail-body {
+    word-wrap: break-word;
 }
