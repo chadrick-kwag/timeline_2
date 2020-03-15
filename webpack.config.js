@@ -44,8 +44,13 @@ module.exports = {
         })
     ],
 
+    watchOptions:{
+        ignored: ['node_modules', 'build'],
+
+    },
+
     devServer: {
-        open: 'chrome', // change to 'chrome' in windows
+        open: 'google-chrome', // change to 'chrome' in windows
         index: "template.html",
         proxy: {
             '/api': 'http://localhost:3001'

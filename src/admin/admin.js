@@ -2,58 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Navbar } from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
-import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
 
-// import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {DataManagePage} from './DataEditPage.js'
 
 
-
-class DataEditPage extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            data: []
-        }
-    }
-
-    componentDidMount() {
-        // fetch data through api
-        this.setState({ data: [1, 2, 3] })
-    }
-
-    render() {
-        return (
-            <div style={{ padding: '2em' }}>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button>Add</Button>
-                </div>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>
-                                header
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.data.map(d => {
-                            return <tr>
-                                <td>
-                                    {d}
-                                </td>
-                            </tr>
-                        })}
-                    </tbody>
-                </Table>
-            </div>
-        )
-    }
-}
 
 class AdminApp extends React.Component {
 
@@ -74,7 +29,7 @@ class AdminApp extends React.Component {
             return <div>null page</div>
         }
         else if (this.state.view == 'data') {
-            return <DataEditPage />
+            return <DataManagePage />
         }
         else if (this.state.view == 'home') {
             return <div>this is home page</div>
