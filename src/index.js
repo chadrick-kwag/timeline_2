@@ -1,38 +1,61 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Container, Row, Col} from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css'
-import {TimelineFigureArea} from './TimelineFigureArea.js'
+import { TimelineFigureArea } from './TimelineFigureArea.js'
 import axios from 'axios'
-import {EventDetailArea} from './EventDetailArea.js'
+import { EventDetailArea } from './EventDetailArea.js'
+import { withRouter } from 'react-router-dom';
+
+
+class TopBar extends React.Component {
+
+    render() {
+
+        return (
+            <div className="top-bar">
+                <span style={{color: '#fff', fontSize: '2em'}}>코로나 정부대책 정리</span>
+            </div>
+        )
+    }
+}
+
+
+class BottomBar extends React.Component {
+
+    render() {
+
+        return (
+            <div className="bottom-fixed-bar">
+                <span style={{ color: 'white', margin: '3px' }}>Provided by Chadrick</span>
+            </div>
+        )
+    }
+}
 
 
 
+class TimeLineWorkSpace extends React.Component {
 
-
-
-
-class TimeLineWorkSpace extends React.Component{
-
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
             data: [],
             unique_date_arr: [],
             event_index_group_arr: [],
-            selected_event_index : null
+            selected_event_index: null
         }
 
         this.updateSelectedEventIndex = this.updateSelectedEventIndex.bind(this)
     }
 
-    componentDidMount(){
-        axios.get('api/getdata').then(res=>{
+    componentDidMount() {
+        axios.get('api/getdata').then(res => {
             console.log(res)
-            
-            
-            let formatted_data = res.data.map((d,i)=>{
+
+
+            let formatted_data = res.data.map((d, i) => {
                 d.event_title = d.title
 
                 let convdate = new Date(d.date)
@@ -44,81 +67,126 @@ class TimeLineWorkSpace extends React.Component{
 
             // sort and init data structured data
             let [unique_date_arr, event_index_group_arr] = get_date_to_event_index_list_map(formatted_data)
-            
 
-            
+
+
             console.log("formatted data: ")
             console.log(formatted_data)
 
             this.setState({
                 data: formatted_data,
                 unique_date_arr: unique_date_arr,
-                event_index_group_arr : event_index_group_arr
+                event_index_group_arr: event_index_group_arr
             })
         })
-        .catch(err=>{
-            console.log(err)
-            alert(err)
-        })
+            .catch(err => {
+                console.log(err)
+                alert(err)
+            })
     }
 
 
-    updateSelectedEventIndex(newindex){
+    updateSelectedEventIndex(newindex) {
         console.log("update new index: ", newindex)
-        this.setState({selected_event_index: newindex})
+        this.setState({ selected_event_index: newindex })
     }
 
 
-    render(){
+    render() {
 
         let timelineFigureAreaProps = {
-            data : this.state.data,
+            data: this.state.data,
             unique_date_arr: this.state.unique_date_arr,
             event_index_group_arr: this.state.event_index_group_arr,
-            updateSelectedEventIndex : this.updateSelectedEventIndex,
-            selected_event_index : this.state.selected_event_index,
-            timeline_rel_position : 0.2,
-            timeline_length : 2000, // unit: px
+            updateSelectedEventIndex: this.updateSelectedEventIndex,
+            selected_event_index: this.state.selected_event_index,
+            timeline_rel_position: 0.2,
+            timeline_length: 2000, // unit: px
             timeline_width: 10, // unit: px
         }
 
         return (
-            
-            <Container fluid>
-                <Row style={{height: "100%"}}>
-                    <Col style={{'overflow-x': 'scroll', 'overflow-y': 'auto', height: "100%", maxWidth: '50%'}}>
-                    <TimelineFigureArea {...timelineFigureAreaProps}/>
+
+            <Container fluid style={{ height: this.props.height }}>
+                <Row >
+                    <Col style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: '50%' }} className="scrollbar">
+                        <TimelineFigureArea {...timelineFigureAreaProps} />
                     </Col>
-                    <Col style={{maxWidth: '50%'}}>
-                    <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex}/>
+                    <Col style={{ maxWidth: '50%' }}>
+                        <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex} />
                     </Col>
                 </Row>
             </Container>
-            
+
         )
     }
 }
 
 
-class App extends React.Component{
+class App extends React.Component {
 
-    componentDidMount(){
-        window.addEventListener('resize', ()=>{
-            console.log("resize handler triggered")
-            this.forceUpdate()
-        })
+    constructor(props) {
+
+        super(props)
+
+        this.state = {
+            timeWorkSpaceHeight: 0
+        }
+
+        this.afterRender = this.afterRender.bind(this)
     }
 
-    render(){
+    afterRender() { 
+        var mainheight = 0
+        
+        let windowheight = document.documentElement.clientHeight
+        console.log("windowheight: " + windowheight)
+
+        console.log("innerheight: " + window.innerHeight)
+        // console.log("windowheight" + windowheight)
+        // console.log(this.topbar)
+        // let topbarheight = this.topbar.offsetHeight
+        // let bottombarheight = this.bottombar.offsetHeight
+
+        // console.log("topbarheight " + topbarheight)
+        mainheight = windowheight - (16*5)
+        console.log("new mainheight: " + mainheight)
+
+        if (mainheight != this.state.timeWorkSpaceHeight) {
+            this.setState({ timeWorkSpaceHeight: mainheight })
+        }
+        
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', () => {
+            console.log("resize handler triggered")
+            this.forceUpdate()
+            this.afterRender()
+        })
+
+        this.afterRender()
+    }
+
+    componentDidUpdate() {
+        this.afterRender()
+    }
+
+    render() {
+
+
         return (<div>
-            
-            <TimeLineWorkSpace/>
+            <TopBar />
+            <div style={{minHeight: '3em', maxHeight: '3em'}}> </div>
+            <TimeLineWorkSpace height={this.state.timeWorkSpaceHeight} />
+            <div style={{minHeight: '2em', maxHeight: '2em'}}></div>
+            <BottomBar />
         </div>)
     }
 }
 
 ReactDOM.render(
-    <App/>,
+    <App />,
     document.getElementById('app')
 )
 

@@ -52,10 +52,11 @@ class EventCardDisplay extends React.Component {
         return (
             <div ref={el => this.maindiv = el} style={{ display: 'flex', overflowX: 'auto' }} onWheel={e => {
                 this.maindiv.scrollLeft += e.deltaY
-            }}>
+            }} className="scrollbar">
                 {this.props.group_index_arr.map(i => {
                     let cardstyle = {
-                        backgroundColor: i == this.props.selectedIndex ? '#0f0' : '#fff',
+                        backgroundColor: i == this.props.selectedIndex ? '#0275d8' : '#fff',
+                        color: i== this.props.selectedIndex ? '#fff' : '#000',
                         flex: "0 0 30%",
                         height: "4em",
                         margin: '0.5em',
