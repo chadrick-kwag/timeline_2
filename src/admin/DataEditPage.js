@@ -10,6 +10,10 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 
+import DatePicker from "react-datepicker";
+ 
+import "react-datepicker/dist/react-datepicker.css";
+
 
 class DataEditPage extends React.Component {
 
@@ -89,7 +93,7 @@ class DataEditPage extends React.Component {
 
             let senddata = {
                 title: this.state.title,
-                date: new Date(),
+                date: this.state.date,
                 body: this.state.body,
                 refs: this.state.refs.slice(0, this.state.refs.length - 1)
             }
@@ -150,6 +154,12 @@ class DataEditPage extends React.Component {
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button onClick={e => this.props.updateMode('showlist')}>Back</Button>
 
+                </div>
+                <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <span style={{margin: '1em'}}>date</span>
+                <DatePicker selected={this.state.date} onChange={d=>{
+                    console.log(d)
+                    this.setState({date: d})}}/>
                 </div>
                 <InputGroup>
                     <InputGroup.Prepend>

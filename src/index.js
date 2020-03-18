@@ -59,6 +59,9 @@ class TimeLineWorkSpace extends React.Component {
                 d.event_title = d.title
 
                 let convdate = new Date(d.date)
+                convdate.setHours(0)
+                convdate.setMinutes(0)
+                convdate.setSeconds(0)
                 // console.log(convdate)
                 d.date = convdate
                 d.event_index = i
