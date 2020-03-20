@@ -1,11 +1,20 @@
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 var proxy = require('express-http-proxy');
 
 const app = express()
 
+const config = require(__dirname + '/../../config/config.json')
+
+console.log(config)
+
+const data_api_address = config.data_address
+const port = config.port
+
+
 app.use(express.static('build'))
-app.use('/api', proxy('localhost:3001',{
+app.use('/api', proxy(data_api_address,{
     proxyReqPathResolver: function(req){
         console.log(req.url)
         return '/api' + req.url
@@ -27,5 +36,5 @@ app.get('/admin', function(req,res){
     res.sendFile(sendpath)
 })
 
-app.listen(8080)
-console.log("app listening to 8080")
+app.listen(port)
+console.log("app listening to " + port)

@@ -62,19 +62,16 @@ class TimeLineWorkSpace extends React.Component {
                 convdate.setHours(0)
                 convdate.setMinutes(0)
                 convdate.setSeconds(0)
-                // console.log(convdate)
                 d.date = convdate
-                d.event_index = i
                 return d
             })
 
+            formatted_data.sort((a,b)=>{return a.date - b.date})
+
+            formatted_data.forEach((d,i)=>d.event_index =i)
+
             // sort and init data structured data
             let [unique_date_arr, event_index_group_arr] = get_date_to_event_index_list_map(formatted_data)
-
-
-
-            console.log("formatted data: ")
-            console.log(formatted_data)
 
             this.setState({
                 data: formatted_data,
@@ -105,7 +102,7 @@ class TimeLineWorkSpace extends React.Component {
             selected_event_index: this.state.selected_event_index,
             timeline_rel_position: 0.2,
             timeline_length: 2000, // unit: px
-            timeline_width: 10, // unit: px
+            timeline_width: 5, // unit: px
         }
 
         return (
@@ -146,12 +143,6 @@ class App extends React.Component {
         console.log("windowheight: " + windowheight)
 
         console.log("innerheight: " + window.innerHeight)
-        // console.log("windowheight" + windowheight)
-        // console.log(this.topbar)
-        // let topbarheight = this.topbar.offsetHeight
-        // let bottombarheight = this.bottombar.offsetHeight
-
-        // console.log("topbarheight " + topbarheight)
         mainheight = windowheight - (16*5)
         console.log("new mainheight: " + mainheight)
 

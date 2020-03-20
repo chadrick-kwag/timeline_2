@@ -1,4 +1,6 @@
 var HTMLWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 
 var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
     template: __dirname + '/src/template.html',
@@ -7,6 +9,7 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 })
 
 module.exports = {
+    mode : 'production',
     entry: {
         main: __dirname + '/src/index.js',
         admin: __dirname + '/src/admin/admin.js'
@@ -43,6 +46,20 @@ module.exports = {
             inject: 'body'
         })
     ],
+    optimization:{
+        minimizer: [
+            new UglifyJsPlugin({
+                extractComments: false
+            }),
+            new TerserPlugin({
+                terserOptions:{
+                    compress: {
+                        drop_console: true
+                    }
+                }
+            })
+        ]
+    },
 
     watchOptions:{
         ignored: ['node_modules', 'build'],

@@ -23,7 +23,8 @@ export class TimelineFigureArea extends React.Component {
 
             dot_marker_radius: 10,
             marker_cy_arr: [],
-            timeline_cx: null
+            timeline_cx: null,
+            timeline_length: this.props.timeline_length
 
 
         }
@@ -40,6 +41,38 @@ export class TimelineFigureArea extends React.Component {
         const timelineoffsetwidth = this.timeline.offsetWidth
         const containerWidth = this.container.offsetWidth
 
+        
+
+
+        // find timeline width that will ensure min space between the most close markers
+        // first, find closes marker
+        let rel_pos_arr = this.event_marker_rel_pos_array.current
+        rel_pos_arr.sort()
+        let min_rel_dff = null
+        if(rel_pos_arr.length>2){
+            for(var i=0;i<(rel_pos_arr.length-1);i++){
+                let diff = rel_pos_arr[i+1] - rel_pos_arr[i]
+                if(min_rel_dff==null || diff < min_rel_dff){
+                    min_rel_dff = diff
+                } 
+            }
+        }
+
+        console.log("min_rel_dff: " + min_rel_dff)
+
+        let timeline_length
+        if(min_rel_dff!=null){
+            timeline_length = 50 / min_rel_dff
+            console.log("newly calculated timeline_length: "+ timeline_length)
+
+            if(timeline_length != statecopy.timeline_length){
+                statecopy.timeline_length = timeline_length
+            }
+        }
+        else{
+            timeline_length = statecopy.timeline_length
+
+        }
 
         const timelinewidth = this.props.timeline_width // px
 
@@ -52,7 +85,7 @@ export class TimelineFigureArea extends React.Component {
         this.timeline.style.marginTop = "30px"
         this.timeline.style.left = tl_left + 'px'
         this.timeline.style.width = timelinewidth + 'px'
-        this.timeline.style.height = this.props.timeline_length + "px"
+        this.timeline.style.height = statecopy.timeline_length + "px"
         this.timeline.style.backgroundColor = "#000"
 
         // set container height
@@ -62,7 +95,8 @@ export class TimelineFigureArea extends React.Component {
 
     calculateDotMarkerRelPositions(statecopy) {
 
-        const timeline_height = this.props.timeline_length
+        // const timeline_height = this.props.timeline_length
+        const timeline_height = statecopy.timeline_length
         let rt_marker_cy_arr = []
 
         this.event_marker_rel_pos_array.current.map(v => {
@@ -201,7 +235,7 @@ export class TimelineFigureArea extends React.Component {
             return <EventMarker {...props}/>
         })
 
-        let date_text_right_limit = this.state.timeline_cx - (this.props.timeline_width/2) - 10
+        let date_text_right_limit = this.state.timeline_cx - (this.props.timeline_width/2) - 20
         var date_textboxes = this.props.unique_date_arr.map((d, i) => {
             return <DateMarker key={"datemk" + i} cy={this.state.marker_cy_arr[i]} date={d} right_limit={date_text_right_limit} />
         })

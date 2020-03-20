@@ -43,6 +43,7 @@ app.put('/api/getdata', (req, res) => {
             console.log(err)
             return res.sendStatus(500)
         }
+        console.log("after eventmodel update")
         console.log(raw)
 
         res.sendStatus(200)
@@ -115,6 +116,7 @@ app.post('/api/getdata', (req, res) => {
     let data = req.body
 
     console.log(data)
+    data['ref'] = data.refs
 
     let newdoc = new eventModel(data)
     console.log(newdoc)

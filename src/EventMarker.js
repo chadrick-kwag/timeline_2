@@ -24,7 +24,7 @@ export class EventMarker extends React.Component{
         this.maindiv.style.width = real_draw_radius *2 + "px"
         this.maindiv.style.height = real_draw_radius *2 + "px"
         this.maindiv.style.borderRadius = real_draw_radius + "px"
-        this.maindiv.style.backgroundColor = "#f00"
+        // this.maindiv.style.backgroundColor = "#d9534f"
 
         this.maindiv.style.left = (this.props.cx - real_draw_radius) + "px"
         this.maindiv.style.top = (this.props.cy - real_draw_radius) + "px"
@@ -45,7 +45,7 @@ export class EventMarker extends React.Component{
 
     render(){
         return (
-            <div ref={el=> this.maindiv = el} onClick={this.handleclick}></div>
+            <div ref={el=> this.maindiv = el} onClick={this.handleclick} className="dot-marker"></div>
         )
     }
 }
