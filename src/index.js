@@ -15,8 +15,10 @@ class TopBar extends React.Component {
 
         return (
             <div className="top-bar">
-                <span style={{color: '#fff', fontSize: '2em'}}>코로나 정부대책 정리</span>
+                <span style={{ color: '#fff', fontSize: '2em' }}>코로나 정부대책 정리</span>
+
             </div>
+
         )
     }
 }
@@ -66,9 +68,9 @@ class TimeLineWorkSpace extends React.Component {
                 return d
             })
 
-            formatted_data.sort((a,b)=>{return a.date - b.date})
+            formatted_data.sort((a, b) => { return a.date - b.date })
 
-            formatted_data.forEach((d,i)=>d.event_index =i)
+            formatted_data.forEach((d, i) => d.event_index = i)
 
             // sort and init data structured data
             let [unique_date_arr, event_index_group_arr] = get_date_to_event_index_list_map(formatted_data)
@@ -136,20 +138,22 @@ class App extends React.Component {
         this.afterRender = this.afterRender.bind(this)
     }
 
-    afterRender() { 
+    afterRender() {
         var mainheight = 0
-        
+
         let windowheight = document.documentElement.clientHeight
         console.log("windowheight: " + windowheight)
 
+        let topbarheight = document.getElementById('top-bar').offsetHeight
+
         console.log("innerheight: " + window.innerHeight)
-        mainheight = windowheight - (16*5)
+        mainheight = windowheight - (16 * 2) - topbarheight
         console.log("new mainheight: " + mainheight)
 
         if (mainheight != this.state.timeWorkSpaceHeight) {
             this.setState({ timeWorkSpaceHeight: mainheight })
         }
-        
+
     }
 
     componentDidMount() {
@@ -168,12 +172,18 @@ class App extends React.Component {
 
     render() {
 
+        // get height of fixed top bar
+        let topbar = document.getElementById('top-bar')
+        let topbarheight = topbar.offsetHeight
+
+        console.log('topbarheight: ' + topbarheight)
 
         return (<div>
-            <TopBar />
-            <div style={{minHeight: '3em', maxHeight: '3em'}}> </div>
+            {/* <TopBar /> */}
+            {/* <div style={{ minHeight: '3em', maxHeight: '3em' }}> </div> */}
+            <div style={{ height: topbarheight + 'px' }}> </div>
             <TimeLineWorkSpace height={this.state.timeWorkSpaceHeight} />
-            <div style={{minHeight: '2em', maxHeight: '2em'}}></div>
+            <div style={{ minHeight: '2em', maxHeight: '2em' }}></div>
             <BottomBar />
         </div>)
     }
