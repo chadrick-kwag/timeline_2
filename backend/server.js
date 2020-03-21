@@ -2,11 +2,15 @@ const express = require('express')
 const bodyparser = require('body-parser')
 const mongoose = require('mongoose')
 
+const config = require(__dirname + '/../config/config.json')
+
+console.log(config)
+
 const app = express();
 app.use(bodyparser.json())
 
-
-mongoose.connect('mongodb://localhost/coronagov', { useNewUrlParser: true })
+var mongo_url = "mongodb://"+config.mongodb_ip + '/' + config.dbname
+mongoose.connect(mongo_url, { useNewUrlParser: true })
 
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -18,7 +22,8 @@ var eventSchema = new mongoose.Schema({
     ref: Array
 })
 
-var eventModel = mongoose.model('events', eventSchema)
+
+var eventModel = mongoose.model(config.collection_name, eventSchema)
 
 
 
@@ -49,43 +54,6 @@ app.put('/api/getdata', (req, res) => {
         res.sendStatus(200)
     })
 
-    // eventModel.findById(id, (err,doc)=>{
-    //     if(err){
-    //         return res.sendStatus(500)
-    //     }
-
-    //     console.log("found doc: ")
-    //     console.log(doc)
-
-
-
-
-
-    //     doc.date = req.body.date
-    //     doc.title = req.body.title
-    //     doc.body = req.body.body
-
-    //     console.log("req refs: ")
-    //     console.log(req.body.refs)
-    //     doc.ref = req.body.refs
-
-    //     console.log("doc after changing attributes")
-    //     console.log(doc)
-
-    //     doc.save((err)=>{
-    //         if(err){
-    //             console.log("err while saving updated doc")
-    //             console.log(err)
-    //             return res.sendStatus(500)
-    //         }
-
-    //         // console.log("updated doc:")
-    //         // console.log(product)
-
-    //         res.sendStatus(200)
-    //     })
-
-    // })
 })
 
 app.delete('/api/getdata/:id', (req, res) => {
@@ -141,7 +109,9 @@ app.get('/api/getdata', (req, res) => {
 
 })
 
-app.listen(3001)
-console.log('start listening on port 3001')
+
+var port = config.data_port
+app.listen(port)
+console.log('start listening on port '+ port)
 
 module.exports

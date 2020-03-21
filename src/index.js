@@ -6,7 +6,7 @@ import './custom.css'
 import { TimelineFigureArea } from './TimelineFigureArea.js'
 import axios from 'axios'
 import { EventDetailArea } from './EventDetailArea.js'
-import { withRouter } from 'react-router-dom';
+
 
 
 class TopBar extends React.Component {
@@ -28,7 +28,7 @@ class BottomBar extends React.Component {
 
         return (
             <div className="bottom-fixed-bar">
-                <span style={{ color: 'white', margin: '3px' }}>Provided by Chadrick</span>
+                <span style={{ color: 'white', margin: '3px' }}>Provided by LazyBastards  Contact: lazybastards4@gmail.com</span>
             </div>
         )
     }

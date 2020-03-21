@@ -32,10 +32,5 @@ app.get('/', function(req, res){
     res.sendFile(sendpath)
 })
 
-app.get('/admin', function(req,res){
-    let sendpath = path.resolve('build/admin.html')
-    res.sendFile(sendpath)
-})
-
 app.listen(port)
 console.log("app listening to " + port)
