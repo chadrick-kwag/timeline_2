@@ -1,5 +1,7 @@
 .event-detail-area-container{
-    position: fixed
+    position: fixed;
+    height: 80%;
+    overflow-y: auto;
 }
 
 

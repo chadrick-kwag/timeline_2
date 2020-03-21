@@ -115,7 +115,7 @@ class TimeLineWorkSpace extends React.Component {
                         <TimelineFigureArea {...timelineFigureAreaProps} />
                     </Col>
                     <Col style={{ maxWidth: '50%' }}>
-                        <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex} />
+                        <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex} height={this.props.height}/>
                     </Col>
                 </Row>
             </Container>

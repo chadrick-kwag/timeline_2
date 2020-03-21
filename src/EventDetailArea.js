@@ -132,7 +132,7 @@ export class EventDetailArea extends React.Component {
 
 
         return (
-            <div className="event-detail-area-container">
+            <div className="event-detail-area-container" style={{height: this.props.height+'px'}}>
                 {eventCardDisplay}
                 <div className="event-detail-title"><h1>{title_text_fn()}</h1></div>
                 <div >
