@@ -28,7 +28,7 @@ class BottomBar extends React.Component {
 
         return (
             <div className="bottom-fixed-bar">
-                <span style={{ color: 'white', margin: '3px' }}>Provided by LazyBastards  Contact: lazybastards4@gmail.com</span>
+                <span style={{ color: 'white', margin: '3px' }}>Provided by LazyBastards | Contact: lazybastards4@gmail.com</span>
             </div>
         )
     }

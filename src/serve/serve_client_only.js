@@ -7,17 +7,30 @@ const app = express()
 
 const config = require(__dirname + '/../../config/config.json')
 
-console.log(config)
+const rateLimit = require('express-rate-limit')
+// import rateLimit from 'express-rate-limit'
+
+var rateLimiter= rateLimit({
+    windowMs: 60 * 1000,
+    max: 20,
+    message: 'exceeded 5 requests in 1 min',
+    headers: true
+})
+
+
+// console.log(config)
 
 const data_api_address = config.data_ip + ':' + config.data_port
-console.log("data_api_address: " + data_api_address)
+// console.log("data_api_address: " + data_api_address)
 const port = config.port
 
 
 app.use(express.static('build'))
+app.use("/api/",rateLimiter)
+
 app.use('/api', proxy(data_api_address,{
     proxyReqPathResolver: function(req){
-        console.log(req.url)
+        // console.log(req.url)
         return '/api' + req.url
     },
     proxyErrorHandler: function(err, res, next){
