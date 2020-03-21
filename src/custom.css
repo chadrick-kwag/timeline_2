@@ -6,11 +6,18 @@
 .event-detail-title {
     margin: 1em;
     word-wrap: break-word;
+    word-break: break-all;
 }
 
 
 .event-detail-body {
     word-wrap: break-word;
+    word-break: break-all;
+}
+
+.event-ref {
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .bottom-fixed-bar{
@@ -53,4 +60,9 @@
 
 .dot-marker{
     background-color: #d9534f;
+}
+
+.eventcard {
+    word-wrap: break-word;
+    word-break: break-all;
 }
