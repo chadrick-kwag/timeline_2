@@ -8,6 +8,7 @@ import axios from 'axios'
 import { EventDetailArea } from './EventDetailArea.js'
 
 import Backdrop from './backdrop/Backdrop.js'
+import EventModal from './EventModal/eventmodal.js'
 
 
 
@@ -142,6 +143,10 @@ class TimeLineWorkSpace extends React.Component {
                     <Backdrop clickHandler={()=>{this.setState({showModal: false})}}/>
 
                     : null
+                }
+                {
+                    this.props.smallMode && this.state.showModal?
+                    <EventModal/> : null
                 }
             </Container>
 
