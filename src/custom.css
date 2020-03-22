@@ -30,17 +30,6 @@ body {
     word-break: break-all;
 }
 
-.bottom-fixed-bar{
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    height: 2em;
-    display: flex;
-    justify-content: flex-end;
-    background-color: gray;
-    z-index: 150;
-}
 
 .top-bar{
     position: fixed;

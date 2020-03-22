@@ -1,0 +1,9 @@
+.date-marker-span{
+    font-size: 1rem;
+}
+
+@media (max-width: 500px){
+    .date-marker-span{
+        font-size: 0.7rem;
+    }
+}
