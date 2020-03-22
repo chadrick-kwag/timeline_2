@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Modal, Container, Row, Col } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css'
 import { TimelineFigureArea } from './TimelineFigureArea.js'
 import axios from 'axios'
 import { EventDetailArea } from './EventDetailArea.js'
+
+import Backdrop from './backdrop/Backdrop.js'
 
 
 
@@ -46,7 +48,8 @@ class TimeLineWorkSpace extends React.Component {
             data: [],
             unique_date_arr: [],
             event_index_group_arr: [],
-            selected_event_index: null
+            selected_event_index: null,
+            showModal: false
         }
 
         this.updateSelectedEventIndex = this.updateSelectedEventIndex.bind(this)
@@ -90,11 +93,21 @@ class TimeLineWorkSpace extends React.Component {
 
     updateSelectedEventIndex(newindex) {
         console.log("update new index: ", newindex)
-        this.setState({ selected_event_index: newindex })
+
+        let newstate = {
+            selected_event_index: newindex
+        }
+
+        if (this.props.smallMode) {
+            newstate.showModal = true
+        }
+        this.setState(newstate)
     }
 
 
     render() {
+
+        console.log('smallmode: ' + this.props.smallMode)
 
         let timelineFigureAreaProps = {
             data: this.state.data,
@@ -107,17 +120,29 @@ class TimeLineWorkSpace extends React.Component {
             timeline_width: 5, // unit: px
         }
 
+        let timeLineFigureAreaWidth = this.props.smallMode ? '100%' : '50%'
+
+
+
+
         return (
 
             <Container fluid style={{ height: this.props.height }}>
                 <Row >
-                    <Col style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: '50%' }} className="scrollbar">
+                    <Col style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: timeLineFigureAreaWidth }} className="scrollbar">
                         <TimelineFigureArea {...timelineFigureAreaProps} />
                     </Col>
-                    <Col style={{ maxWidth: '50%' }}>
-                        <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex} height={this.props.height}/>
-                    </Col>
+                    {this.props.smallMode ? null : <Col style={{ maxWidth: '50%' }}>
+                        <EventDetailArea showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} cardClickHandler={this.updateSelectedEventIndex} height={this.props.height} />
+                    </Col>}
+
                 </Row>
+
+                {this.props.smallMode ?
+                    <Backdrop />
+
+                    : null
+                }
             </Container>
 
         )
@@ -132,13 +157,16 @@ class App extends React.Component {
         super(props)
 
         this.state = {
-            timeWorkSpaceHeight: 0
+            timeWorkSpaceHeight: 0,
+            showModal: false
         }
 
         this.afterRender = this.afterRender.bind(this)
     }
 
     afterRender() {
+
+        // adust main height if necessary
         var mainheight = 0
 
         let windowheight = document.documentElement.clientHeight
@@ -172,6 +200,12 @@ class App extends React.Component {
 
     render() {
 
+        let innerwidth = window.innerWidth
+        console.log('in render, innerwidth: ' + innerWidth)
+        let innerheight = window.innerHeight
+
+
+
         // get height of fixed top bar
         let topbar = document.getElementById('top-bar')
         let topbarheight = topbar.offsetHeight
@@ -179,11 +213,14 @@ class App extends React.Component {
         console.log('topbarheight: ' + topbarheight)
 
         return (<div>
-            {/* <TopBar /> */}
-            {/* <div style={{ minHeight: '3em', maxHeight: '3em' }}> </div> */}
+
             <div style={{ height: topbarheight + 'px' }}> </div>
-            <TimeLineWorkSpace height={this.state.timeWorkSpaceHeight} />
+
+
+            <TimeLineWorkSpace height={this.state.timeWorkSpaceHeight} smallMode={innerwidth < 1000 ? true : false} />
+
             <div style={{ minHeight: '2em', maxHeight: '2em' }}></div>
+
             <BottomBar />
         </div>)
     }

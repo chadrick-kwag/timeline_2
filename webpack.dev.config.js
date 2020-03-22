@@ -49,7 +49,9 @@ module.exports = {
     
 
     watchOptions:{
-        ignored: ['node_modules', 'build'],
+        ignored: ['node_modules', 'build', 'devbuild'],
+        poll: 200,
+        aggregateTimeout: 100
 
     },
 
