@@ -3,12 +3,17 @@
     left: 10vw;
     top: 5vh;
     width: 80vw;
-    height: 90vh;
+    height: 80vh;
     background-color: white;
     z-index: 202;
 
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    display: flex;
+    flex-direction: column;
+
+    
 }
 
 .modal-event-date {
@@ -22,6 +27,8 @@
 .modal-event-title {
     font-size: 1.5rem;
     padding: 0 1rem 1rem 1rem;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 .modal-event-body {
@@ -36,9 +43,23 @@
     padding-left: 1rem;
     padding-right: 1rem;
     color: #0275d8;
+
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 1rem;
 }
 
 .modal-event-refs a{
     color: #0275d8;
+}
+
+.modal-event-content {
+    flex: 1;
+    width: 100%;
+    
+    overflow-y: auto;
 }
 

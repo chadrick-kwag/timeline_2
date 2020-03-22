@@ -39,10 +39,15 @@ export default class EventModal extends React.Component {
                 {event_carousel}
                 <div className="modal-event-date">{formatted_date}</div>
                 <div className="modal-event-title">{seldata.title}</div>
+                <div className='modal-event-content'>
+
                 <div className="modal-event-body">{seldata.body}</div>
                 <div className="modal-event-refs">
                     {seldata.ref.map((d, i) => <a key={"refspan_" + i} target="_blank" href={d}>{d}</a>)}
                 </div>
+
+                </div>
+                
             </div>
         )
     }
