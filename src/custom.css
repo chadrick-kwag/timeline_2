@@ -34,11 +34,12 @@ body {
     position: fixed;
     width: 100%;
     bottom: 0;
+    left: 0;
     height: 2em;
     display: flex;
     justify-content: flex-end;
     background-color: gray;
-    z-index: 9999;
+    z-index: 150;
 }
 
 .top-bar{

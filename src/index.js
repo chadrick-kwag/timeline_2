@@ -138,8 +138,8 @@ class TimeLineWorkSpace extends React.Component {
 
                 </Row>
 
-                {this.props.smallMode ?
-                    <Backdrop />
+                {this.props.smallMode && this.state.showModal?
+                    <Backdrop clickHandler={()=>{this.setState({showModal: false})}}/>
 
                     : null
                 }

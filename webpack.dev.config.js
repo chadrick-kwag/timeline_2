@@ -1,6 +1,7 @@
 var HTMLWebpackPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin');
+const os = require('os')
 
 var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
     template: __dirname + '/src/template.html',
@@ -56,7 +57,14 @@ module.exports = {
     },
 
     devServer: {
-        open: 'google-chrome', // change to 'chrome' in windows
+        open:  (()=>{
+            if(os.type()=="Linux"){
+                return 'google-chrome'
+            }
+            else{
+                return 'chrome'
+            }
+        })(),// change to 'chrome' in windows
         index: "template.html",
         proxy: {
             '/api': 'http://localhost:3001'
@@ -65,3 +73,4 @@ module.exports = {
 
 
 }
+
