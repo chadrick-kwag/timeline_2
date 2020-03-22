@@ -9,7 +9,7 @@ import { EventDetailArea } from './EventDetailArea.js'
 
 import Backdrop from './backdrop/Backdrop.js'
 import EventModal from './EventModal/eventmodal.js'
-
+import BottomBar from './bottombar/bottombar.js'
 
 
 class TopBar extends React.Component {
@@ -27,17 +27,6 @@ class TopBar extends React.Component {
 }
 
 
-class BottomBar extends React.Component {
-
-    render() {
-
-        return (
-            <div className="bottom-fixed-bar">
-                <span style={{ color: 'white', margin: '3px' }}>Provided by LazyBastards | Contact: lazybastards4@gmail.com</span>
-            </div>
-        )
-    }
-}
 
 
 
