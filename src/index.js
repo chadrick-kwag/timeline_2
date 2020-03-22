@@ -146,7 +146,7 @@ class TimeLineWorkSpace extends React.Component {
                 }
                 {
                     this.props.smallMode && this.state.showModal?
-                    <EventModal/> : null
+                    <EventModal showindex={this.state.selected_event_index} data={this.state.data} event_index_group_arr={this.state.event_index_group_arr} /> : null
                 }
             </Container>
 
