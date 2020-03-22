@@ -1,7 +1,7 @@
 import React from 'react'
 import { EventMarker } from './EventMarker.js'
-import { DateMarker } from './DateMarker.js'
-import { EventBox } from './EventBox.js'
+import { DateMarker } from './datemarker/DateMarker.js'
+
 import { EventSlotContainer } from './EventSlot.js'
 
 

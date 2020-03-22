@@ -1,4 +1,5 @@
 import React from 'react'
+import './datemarker.css'
 
 export class DateMarker extends React.Component{
 
@@ -43,7 +44,7 @@ export class DateMarker extends React.Component{
     render(){
         return (
             <div ref={el=>this.maindiv = el}>
-                <span ref={el => this.textspan = el}>{this.format_date_to_str(this.props.date)}</span>
+                <span className="date-marker-span" ref={el => this.textspan = el}>{this.format_date_to_str(this.props.date)}</span>
             </div>
         )
     }
