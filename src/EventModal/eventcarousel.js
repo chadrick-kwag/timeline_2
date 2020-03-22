@@ -17,7 +17,7 @@ export default class EventCarousel extends React.Component{
 
                         return <div className={classname} key={'carousel-item-'+i}
                         onClick={()=>this.props.carouselItemClickHandler(d.event_index)}
-                        >{d.title}</div>
+                        >{d.title.length > 30 ? d.title.slice(0,30)+'...': d.title}</div>
                     })}
                     <div style={{width:'1px', minWidth: '1px', height:'1px'}}> </div>
 
