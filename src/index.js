@@ -43,6 +43,7 @@ class TimeLineWorkSpace extends React.Component {
         }
 
         this.updateSelectedEventIndex = this.updateSelectedEventIndex.bind(this)
+        this.scrollTimeLineHoldingCol = this.scrollTimeLineHoldingCol.bind(this)
     }
 
     componentDidMount() {
@@ -94,6 +95,13 @@ class TimeLineWorkSpace extends React.Component {
         this.setState(newstate)
     }
 
+    scrollTimeLineHoldingCol(scrollpos){
+        console.log('scrollTimeLineHoldingCol triggered. ' + scrollpos)
+        if(this.timelineholder){
+            this.timelineholder.scrollTop = scrollpos
+        }
+    }
+
 
     render() {
 
@@ -107,7 +115,8 @@ class TimeLineWorkSpace extends React.Component {
             selected_event_index: this.state.selected_event_index,
             timeline_rel_position: 0.2,
             timeline_length: 2000, // unit: px
-            timeline_width: 5, // unit: px
+            timeline_width: 5, // unit: px,
+            scrollTimeLineHoldingCol: this.scrollTimeLineHoldingCol
         }
 
         let timeLineFigureAreaWidth = this.props.smallMode ? '100%' : '50%'
@@ -119,7 +128,7 @@ class TimeLineWorkSpace extends React.Component {
 
             <Container fluid style={{ height: this.props.height }}>
                 <Row >
-                    <Col style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: timeLineFigureAreaWidth }} className="scrollbar">
+                    <Col ref={el=>this.timelineholder = el} style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: timeLineFigureAreaWidth }} className="scrollbar">
                         <TimelineFigureArea {...timelineFigureAreaProps} />
                     </Col>
                     {this.props.smallMode ? null : <Col style={{ maxWidth: '50%' }}>

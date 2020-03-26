@@ -45,7 +45,7 @@ export class EventMarker extends React.Component{
 
     render(){
         return (
-            <div ref={el=> this.maindiv = el} onClick={this.handleclick} className="dot-marker"></div>
+            <div id={this.props.id} ref={el=> this.maindiv = el} onClick={this.handleclick} className="dot-marker"></div>
         )
     }
 }
