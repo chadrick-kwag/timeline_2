@@ -36,7 +36,7 @@ class EventCard extends React.Component {
 
     render() {
         return (
-            <div ref={e => this.maindiv = e} className="card eventcard" style={this.props.cardstyle} onClick={e => this.props.cardClickHandler()} key={this.props.key}>
+            <div ref={e => this.maindiv = e} className="card eventcard" style={this.props.cardstyle} onClick={e => this.props.cardClickHandler()}>
                 <span ref={el => this.textspan = el}>
                     {this.state.text}
                 </span>
