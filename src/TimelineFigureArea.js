@@ -80,11 +80,16 @@ export class TimelineFigureArea extends React.Component {
 
         this.props.scrollTimeLineHoldingCol(offset_h)
 
+        if(!this.props.smallMode){
 
-        // now select the first item
-        let selected_event_index_group = this.props.event_index_group_arr[final_unique_date_to_scroll_index]
-        
-        return selected_event_index_group[0]
+            // now select the first item
+            let selected_event_index_group = this.props.event_index_group_arr[final_unique_date_to_scroll_index]
+            
+            return selected_event_index_group[0]
+        }
+        else{
+            return null
+        }
 
 
 
@@ -185,7 +190,10 @@ export class TimelineFigureArea extends React.Component {
 
 
                 // statecopy.select_event_index = select_event_index
-                this.props.updateSelectedEventIndex(select_event_index)
+                if(select_event_index!=null){
+
+                    this.props.updateSelectedEventIndex(select_event_index)
+                }
 
 
                 statecopy.start_init_done = true

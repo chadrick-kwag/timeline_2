@@ -116,7 +116,8 @@ class TimeLineWorkSpace extends React.Component {
             timeline_rel_position: 0.2,
             timeline_length: 2000, // unit: px
             timeline_width: 5, // unit: px,
-            scrollTimeLineHoldingCol: this.scrollTimeLineHoldingCol
+            scrollTimeLineHoldingCol: this.scrollTimeLineHoldingCol,
+            smallMode: this.props.smallMode
         }
 
         let timeLineFigureAreaWidth = this.props.smallMode ? '100%' : '50%'
