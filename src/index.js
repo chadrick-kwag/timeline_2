@@ -128,7 +128,7 @@ class TimeLineWorkSpace extends React.Component {
 
             <Container fluid style={{ height: this.props.height }}>
                 <Row >
-                    <Col ref={el=>this.timelineholder = el} style={{ 'overflow-y': 'auto', height: this.props.height, maxWidth: timeLineFigureAreaWidth }} className="scrollbar">
+                    <Col ref={el=>this.timelineholder = el} style={{ overflowY: 'auto', height: this.props.height, maxWidth: timeLineFigureAreaWidth }} className="scrollbar">
                         <TimelineFigureArea {...timelineFigureAreaProps} />
                     </Col>
                     {this.props.smallMode ? null : <Col style={{ maxWidth: '50%' }}>
