@@ -7,8 +7,6 @@ import { EventSlotContainer } from './EventSlot.js'
 
 export class TimelineFigureArea extends React.Component {
 
-
-
     constructor(props) {
         super(props)
 
@@ -24,7 +22,8 @@ export class TimelineFigureArea extends React.Component {
             dot_marker_radius: 10,
             marker_cy_arr: [],
             timeline_cx: null,
-            timeline_length: this.props.timeline_length
+            timeline_length: this.props.timeline_length,
+            start_init_done: false
 
 
         }
@@ -32,6 +31,68 @@ export class TimelineFigureArea extends React.Component {
         this.get_event_rel_y_pos_arr = this.get_event_rel_y_pos_arr.bind(this)
         this.marker_click_handler = this.marker_click_handler.bind(this)
         this.event_click_handler = this.event_click_handler.bind(this)
+        this.calculate_init_render_done_and_auto_scroll = this.calculate_init_render_done_and_auto_scroll.bind(this)
+    }
+
+
+    calculate_init_render_done_and_auto_scroll(){
+        // get current date
+        let currdate = new Date()
+
+        // find unique date that is closest to current date. if there confusing sets, then choose the future one.
+        let date_diff_arr = this.props.unique_date_arr.map(d=> d-currdate)
+        console.log('date_diff_arr')
+        console.log(date_diff_arr)
+
+        let abs_date_diff_arr = date_diff_arr.map(d=>Math.abs(d))
+
+        let min_abs_date_val = Math.min(...abs_date_diff_arr)
+
+        let min_abs_date_diff_index_arr = []
+        abs_date_diff_arr.forEach((d,i)=>{
+            if(d==min_abs_date_val){
+                min_abs_date_diff_index_arr.push(i)
+            }
+        })
+
+        // for simplicity, just choose the first one
+        let final_unique_date_to_scroll_index = min_abs_date_diff_index_arr[0]
+
+        if(final_unique_date_to_scroll_index==null){
+            console.log('invalid value for final_unique_date_to_scroll_index: ' + final_unique_date_to_scroll_index)
+            return
+        }
+
+        // find dot that corresponds to final_unique_date_to_scroll_index
+        let idname = "unique_dot_" + final_unique_date_to_scroll_index
+
+        console.log("idname: " + idname)
+
+        let dot_el = document.getElementById(idname)
+
+        console.log(dot_el)
+        if(dot_el==null){
+            return
+        }
+
+        let offset_h = dot_el.offsetTop
+
+
+        this.props.scrollTimeLineHoldingCol(offset_h)
+
+        if(!this.props.smallMode){
+
+            // now select the first item
+            let selected_event_index_group = this.props.event_index_group_arr[final_unique_date_to_scroll_index]
+            
+            return selected_event_index_group[0]
+        }
+        else{
+            return null
+        }
+
+
+
     }
 
 
@@ -119,6 +180,26 @@ export class TimelineFigureArea extends React.Component {
 
         if (JSON.stringify(this.state) == JSON.stringify(statecopy)) {
             console.log("compare match do nothing")
+
+            console.log(statecopy)
+
+            if(!statecopy.start_init_done && statecopy.marker_cy_arr.length >0){
+                // indicate initial rendering is finished
+
+                let select_event_index = this.calculate_init_render_done_and_auto_scroll()
+
+
+                // statecopy.select_event_index = select_event_index
+                if(select_event_index!=null){
+
+                    this.props.updateSelectedEventIndex(select_event_index)
+                }
+
+
+                statecopy.start_init_done = true
+                this.setState(statecopy)
+            }
+
         }
         else {
             console.log("compare not match")
@@ -224,7 +305,8 @@ export class TimelineFigureArea extends React.Component {
             let selected_bool = i == dot_selected_index
 
             let props = {
-                key : 'unique' + i,
+                id : 'unique_dot_' + i,
+                key : 'unique_dot_' + i,
                 radius : this.state.dot_marker_radius,
                 cx : this.state.timeline_cx,
                 cy : this.state.marker_cy_arr[i],

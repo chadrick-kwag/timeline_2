@@ -36,6 +36,7 @@ export class EventSlotContainer extends React.Component {
 
             let props = {
                 data: this.props.data[i],
+                key: "eventslot" + i,
                 event_click_handler: this.props.event_click_handler,
                 selected: isSelected,
                 slotwidth: this.props.slotwidth
@@ -44,7 +45,7 @@ export class EventSlotContainer extends React.Component {
         }
 
         if(more_flag){
-            eventslots.push(<Button onClick={e=>this.props.event_click_handler(this.props.data[3].event_index)}>+</Button>)
+            eventslots.push(<Button key="event_slot_extra_button" onClick={e=>this.props.event_click_handler(this.props.data[3].event_index)}>+</Button>)
         }
 
         return (

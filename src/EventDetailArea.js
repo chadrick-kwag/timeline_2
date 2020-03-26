@@ -36,7 +36,7 @@ class EventCard extends React.Component {
 
     render() {
         return (
-            <div ref={e => this.maindiv = e} className="card eventcard" style={this.props.cardstyle} onClick={e => this.props.cardClickHandler()} key={this.props.key}>
+            <div ref={e => this.maindiv = e} className="card eventcard" style={this.props.cardstyle} onClick={e => this.props.cardClickHandler()}>
                 <span ref={el => this.textspan = el}>
                     {this.state.text}
                 </span>
@@ -102,8 +102,8 @@ export class EventDetailArea extends React.Component {
                 let ref_arr = this.props.data[this.props.showindex].ref
 
                 let ret_arr = []
-                ref_arr.forEach(r => {
-                    ret_arr.push(<a className="event-ref" href={r} target="_blank">{r}</a>)
+                ref_arr.forEach((r,i) => {
+                    ret_arr.push(<a key={'ref_'+i} className="event-ref" href={r} target="_blank">{r}</a>)
                 })
 
                 return ret_arr
