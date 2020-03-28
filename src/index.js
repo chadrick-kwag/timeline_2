@@ -223,8 +223,6 @@ class App extends React.Component {
 
             <TimeLineWorkSpace height={this.state.timeWorkSpaceHeight} smallMode={innerwidth < 1000 ? true : false} />
 
-            <div style={{ minHeight: '2em', maxHeight: '2em' }}></div>
-
             <BottomBar />
         </div>)
     }
