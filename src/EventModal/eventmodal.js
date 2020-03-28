@@ -27,10 +27,23 @@ export default class EventModal extends React.Component {
             this.item_global_index_to_local_index_map[d]=i
         })
 
-        console.log('this.item_global_index_to_local_index_map')
-        console.log(this.item_global_index_to_local_index_map)
 
 
+        this.update_local_carousel_item_index = this.update_local_carousel_item_index.bind(this)
+
+    }
+
+
+    update_local_carousel_item_index(new_index){
+        if(new_index <0){
+            return
+        }
+
+        if(new_index >= this.selected_event_index_group.length){
+            return
+        }
+        let new_global_index = this.selected_event_index_group[new_index]
+        this.props.carouselItemClickHandler(new_global_index)
     }
 
     render() {
@@ -41,31 +54,13 @@ export default class EventModal extends React.Component {
 
         const swipe_left_fn = e=>{
             let new_index = this.item_global_index_to_local_index_map[this.props.showindex] + 1
-            if(new_index <0){
-                return
-            }
-
-            if(new_index >= this.selected_event_index_group.length){
-                return
-            }
-            let new_global_index = this.selected_event_index_group[new_index]
-            console.log('new_global_index: ' + new_global_index)
-            this.props.carouselItemClickHandler(new_global_index)
+            this.update_local_carousel_item_index(new_index)
 
         }
 
         const swipe_right_fn = e=>{
             let new_index = this.item_global_index_to_local_index_map[this.props.showindex] - 1
-            if(new_index <0){
-                return
-            }
-
-            if(new_index >= this.selected_event_index_group.length){
-                return
-            }
-            let new_global_index = this.selected_event_index_group[new_index]
-            console.log('new_global_index: '+new_global_index)
-            this.props.carouselItemClickHandler(new_global_index)
+            this.update_local_carousel_item_index(new_index)
         }
 
         let event_carousel = null

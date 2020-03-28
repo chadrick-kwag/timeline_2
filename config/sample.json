@@ -6,5 +6,4 @@
     "collection_name": "collection_name",
     "mongodb_ip": "localhost",
     "admin_port": 3002
-    
 }
