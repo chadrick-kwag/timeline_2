@@ -35,6 +35,7 @@
     font-size: 1rem;
     padding: 0 1rem;
     line-height: 2rem;
+    
 }
 
 .modal-event-refs {
@@ -61,5 +62,6 @@
     width: 100%;
     
     overflow-y: auto;
+    height: 40vh;
 }
 
