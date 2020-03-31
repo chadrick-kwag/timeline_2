@@ -35,7 +35,14 @@ export default class EventModal extends React.Component {
 
     redraw(){
         let modal_container_height = this.modal_container.offsetHeight
-        let carousel_height = this.eventcarousel.carouselBoxDiv.offsetHeight
+        let carousel_height
+        if(this.eventcarousel){
+
+            let carousel_height = this.eventcarousel.carouselBoxDiv.offsetHeight
+        }
+        else{
+            carousel_height = 0
+        }
         let modal_event_date_height = this.modal_event_date.offsetHeight
         let modal_event_title_height = this.modal_event_title.offsetHeight
         let modal_event_content_height = this.modal_event_content.offsetHeight
